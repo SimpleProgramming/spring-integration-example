@@ -1,6 +1,8 @@
 package com.springboot.config;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,7 @@ import org.springframework.integration.json.JsonToObjectTransformer;
 import org.springframework.integration.json.ObjectToJsonTransformer;
 import org.springframework.integration.router.HeaderValueRouter;
 import org.springframework.integration.router.PayloadTypeRouter;
+import org.springframework.integration.router.RecipientListRouter;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.transformer.HeaderEnricher;
 import org.springframework.integration.transformer.support.HeaderValueMessageProcessor;
@@ -107,4 +110,17 @@ public class IntegrationConfig {
 		return router;
 	}
 
+	// Recipient List Router
+	@ServiceActivator(inputChannel = "recipient.payload.router.channel")
+	@Bean
+	public RecipientListRouter recipientListRouter() {
+		RecipientListRouter router = new RecipientListRouter();
+		router.setSendTimeout(1_234L);
+		router.setIgnoreSendFailures(true);
+		router.setApplySequence(true);
+		router.addRecipient("student.channel");
+		router.addRecipient("address.channel");
+		router.addRecipient("channel3");
+		return router;
+	}
 }
