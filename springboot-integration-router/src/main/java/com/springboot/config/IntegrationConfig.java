@@ -15,6 +15,7 @@ import org.springframework.integration.core.MessageSelector;
 import org.springframework.integration.filter.MessageFilter;
 import org.springframework.integration.json.JsonToObjectTransformer;
 import org.springframework.integration.json.ObjectToJsonTransformer;
+import org.springframework.integration.router.HeaderValueRouter;
 import org.springframework.integration.router.PayloadTypeRouter;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.transformer.HeaderEnricher;
@@ -42,7 +43,7 @@ public class IntegrationConfig {
 	// return new DirectChannel();
 	// }
 
-	//Filter Example
+	// Filter Example
 	@Filter(inputChannel = "router.channel")
 	@Bean
 	public MessageFilter filter() {
@@ -57,7 +58,7 @@ public class IntegrationConfig {
 		return filter;
 	}
 
-	//Transformer Example
+	// Transformer Example
 	@Bean
 	@Transformer(inputChannel = "integration.student.gateway.channel", outputChannel = "integration.student.toConvertObject.channel")
 	public HeaderEnricher enrichHeader() {
@@ -93,6 +94,16 @@ public class IntegrationConfig {
 		PayloadTypeRouter router = new PayloadTypeRouter();
 		router.setChannelMapping(Student.class.getName(), "student.enrich.header.channel");
 		router.setChannelMapping(Address.class.getName(), "address.enrich.header.channel");
+		return router;
+	}
+
+	// Header Value Router
+	@ServiceActivator(inputChannel = "header.payload.router.channel")
+	@Bean
+	public HeaderValueRouter headerRouter() {
+		HeaderValueRouter router = new HeaderValueRouter("testHeader");
+		router.setChannelMapping("student", "student.channel");
+		router.setChannelMapping("address", "address.channel");
 		return router;
 	}
 
