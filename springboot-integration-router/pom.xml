@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.springboot</groupId>
-	<artifactId>springboot-integration-router</artifactId>
+	<artifactId>springboot-integration-components</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>springboot-integration-router</name>
+	<name>springboot-integration-components</name>
 	<description>Demo project for Spring Integration</description>
 
 	<parent>
