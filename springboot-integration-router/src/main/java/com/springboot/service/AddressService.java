@@ -1,11 +1,11 @@
 package com.springboot.service;
 
+import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessagingException;
-import org.springframework.stereotype.Component;
 
-@Component
+@MessageEndpoint
 public class AddressService {
 
 	@ServiceActivator(inputChannel = "address.channel")
